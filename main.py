@@ -12,6 +12,6 @@ async def help(ctx):
 
 @bot.command()
 async def ping(ctx):
-    await ctx.reply("pong")
+    await ctx.reply("pong")    
 
-bot.run("OTAxMzkzNzExNDQxNzcyNjA0.GttX7f.T6CTZnLTq0fPP7dsjFjN2_u0FaiMNnU9JlWkhs")
+bot.run("OTAxMzkzNzExNDQxNzcyNjA0.G5YQRm.TmuyTs47KDTEWHOdZ7qPVOYhTrz4e0iEP6XyvM")
