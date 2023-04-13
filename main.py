@@ -16,11 +16,15 @@ class abot(discord.Client):
 
 bot = abot()
 tree = app_commands.CommandTree(bot)
+names = ""
 
 
-@tree.command(name="Locate", description="get basic rank infos")
-async def self(interation: discord.Interaction,name:str , region: typing.Literal["EUW","EUNE","NA","BR","JP","KR","LA","LAS","OC","TR","RU"], queue: typing.Literal["SoloQ","FelxQ"]):
-    await interation.response.send_message("str à la con")
+@tree.command(name="locate", description="get basic rank infos")
+async def self(interation: discord.Interaction,name:str , region: typing.Literal["EUW","EUNE","NA","BR","JP","KR","LA","LAS","OC","TR","RU"]):
+    names = region
+    await interation.response.send_message(f"str à la con {names}")
+
+
 
 
 
