@@ -25,7 +25,7 @@ for page in range(1,11):
 
 
     bars = soup.find_all('h2',{'class': 'h4 mb-0'})
-
+    print(bars)
     for bar in bars:
         print("azzzzb")
         nom = bar.find('a', {'class': 'name'}).text.strip()
