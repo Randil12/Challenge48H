@@ -3,85 +3,78 @@ import requests
 from bs4 import BeautifulSoup
 from Get_yes_no import service
 
-def spiderSoup(table, nbPages):
-    # host = 'db4free.net'
-    # user = 'challenge48h'
-    # password = 'rootroot'
-    # database = 'spiderbase'
+
+def spiderBarSoup(table, nbPages):
+    host = 'db4free.net'
+    user = 'challenge48h'
+    password = 'rootroot'
+    database = 'spiderbase'
     # host = 'localhost'
     # user = 'root'
     # password = ''
     # database = 'spider_student'
-    
-    conn = mysql.connector.connect(host=host, user=user, password=password, database=database)
-    cursor = conn.cursor()
+# connect to db
+    conn = mysql.connector.connect(
+        host=host, user=user, password=password, database=database)
 
-    table_utl = table.replace('-','')
-    # query_create = f"CREATE TABLE IF NOT EXISTS "+table_utl+" (nom TEXT)"
-    # cursor.execute(query_create)
-    count =0
-    for page in range(1,nbPages):
-        url =f"https://www.schlouk-map.com/fr/cities/{table}?page={page}"
+# scrapping page
+    for page in range(1, nbPages):
+        url = f"https://www.schlouk-map.com/fr/cities/{table}?page={page}"
         response = requests.get(url)
         print(url)
         soup = BeautifulSoup(response.content, 'html.parser')
 
-        bars = soup.find_all('h2',{'class': 'h4 mb-0'})
-        print(bars)
-        count += 1
+        bars = soup.find_all('h2', {'class': 'h4 mb-0'})
+# scrapping bars
         for bar in bars:
-            print(count)
-            nom = bar.find('a', {'class': 'name'}).text.strip()
-            # query = """INSERT INTO """+table_utl+""" (nom) VALUES (%s)"""
-            # params = [nom]
-            barF = nom.replace('-!', '').replace('Red-House','red-house-1').replace('Moi-JMen-Fous-Je-Triche','moi-jm-en-fous-je-triche').replace('.', '-').replace('(','').replace(')','').replace(' - ', '-').replace(' & ','-').replace('&','-').replace(' ','-').replace('\'', '').replace('’','')
-            service(nom,barF,table)
+            name = bar.find('a', {'class': 'name'}).text.strip()
+            barFormat = name.replace('-!', '').replace('Red-House', 'red-house-1').replace('Moi-JMen-Fous-Je-Triche', 'moi-jm-en-fous-je-triche').replace(
+                '.', '-').replace('(', '').replace(')', '').replace(' - ', '-').replace(' & ', '-').replace('&', '-').replace(' ', '-').replace('\'', '').replace('’', '')
+            service(name, barFormat, table)
             # print(params)
-            print(barF)
-            print(nom)
+            print(barFormat)
+            print(name)
             # cursor.execute(query, params)
             conn.commit()
-
-
-
     conn.close()
-    
-def spiderSportSoup(table, nbPages):
-    # host = 'db4free.net'
-    # user = 'challenge48h'
-    # password = 'rootroot'
-    # database = 'spiderbase'
+
+
+def spiderSportSoup(place, url, nbPages):
+    host = 'db4free.net'
+    user = 'challenge48h'
+    password = 'rootroot'
+    database = 'spiderbase'
+
     # host = 'localhost'
     # user = 'root'
     # password = ''
     # database = 'spider_student'
-    
-    # conn = mysql.connector.connect(host=host, user=user, password=password, database=database)
-    # cursor = conn.cursor()
-
-    table_utl = table.replace('-','')
-    # query_create = f"CREATE TABLE IF NOT EXISTS "+table_utl+" (nom TEXT)"
-    # cursor.execute(query_create)
-    count =0
-    for page in range(1,nbPages):
-        url =f"https://www.lyon.fr/equipements?search_api_fulltext=&field_secteur_geographique=All&items_per_page=30&field_sous_types_tmp=1387&field_sous_types_tmp_bis=All&field_sous_types=All&filter_theme=Filtrer%20les%20types&filter_sous_theme=Filtrer%20les%20sous-types&page={page}"
-        response = requests.get(url)
+# connect to db
+    conn = mysql.connector.connect(
+        host=host, user=user, password=password, database=database)
+    cursor = conn.cursor()
+# create database
+    query_create = f"CREATE TABLE IF NOT EXISTS sport (place TEXT,name TEXT)"
+    cursor.execute(query_create)
+# scrapping page
+    for page in range(0, nbPages):
+        url_Final = url + str(page)
+        response = requests.get(url_Final)
         print(url)
         soup = BeautifulSoup(response.content, 'html.parser')
+# scapping data
+        sports = soup.find_all('div', {'class': 'actu-texte'})
+        for sport in sports:
+            name = sport.find('h2').text.strip()
+            query = """INSERT INTO sport (place, name) VALUES (%s,%s)"""
+            cursor.execute(query, (place, name))
+            conn.commit()
 
-        bars = soup.find_all('div', {'class':'actu-texte'})
-        count += 1
-        for bar in bars:
-            print(count)
-            nom = bar.find('h2').text.strip()
-            # query = """INSERT INTO """+table_utl+""" (nom) VALUES (%s)"""
-            params = [nom]
-            # barF = nom.replace('-!', '').replace('Red-House','red-house-1').replace('Moi-JMen-Fous-Je-Triche','moi-jm-en-fous-je-triche').replace('.', '-').replace('(','').replace(')','').replace(' - ', '-').replace(' & ','-').replace('&','-').replace(' ','-').replace('\'', '').replace('’','')
-            # service(nom,barF,table)
-            print(params)
-    #         cursor.execute(query, params)
-    #         conn.commit()
+    conn.close()
 
-    # conn.close()
-    
-spiderSportSoup("lyon" ,6)
+# spiderSportSoup("Gymnases-Salles-Halles" ,"https://www.lyon.fr/equipements?search_api_fulltext=&field_secteur_geographique=All&items_per_page=30&field_sous_types_tmp=1387&field_sous_types_tmp_bis=All&field_sous_types=All&filter_theme=Filtrer%20les%20types&filter_sous_theme=Filtrer%20les%20sous-types&page=",4)
+# spiderSportSoup("Patinoire" ,"https://www.lyon.fr/equipements?search_api_fulltext=&field_secteur_geographique=All&items_per_page=1&field_sous_types_tmp=1387&field_sous_types_tmp_bis=1639&field_sous_types=All&filter_theme=Filtrer%20les%20types&filter_sous_theme=Filtrer%20les%20sous-types&page=",2)
+# spiderSportSoup("Piscine" ,"https://www.lyon.fr/equipements?search_api_fulltext=&field_secteur_geographique=All&items_per_page=10&field_sous_types_tmp=1387&field_sous_types_tmp_bis=1602&field_sous_types=All&filter_theme=Filtrer%20les%20types&filter_sous_theme=Filtrer%20les%20sous-types&page=",3)
+# spiderSportSoup("Stade" ,"https://www.lyon.fr/equipements?search_api_fulltext=&field_secteur_geographique=All&items_per_page=10&field_sous_types_tmp=1387&field_sous_types_tmp_bis=1513&field_sous_types=All&filter_theme=Filtrer%20les%20types&filter_sous_theme=Filtrer%20les%20sous-types&page=",3)
+# spiderSportSoup("Terrain-de-boules" ,"https://www.lyon.fr/equipements?search_api_fulltext=&field_secteur_geographique=All&items_per_page=10&field_sous_types_tmp=1387&field_sous_types_tmp_bis=1464&field_sous_types=All&filter_theme=Filtrer%20les%20types&filter_sous_theme=Filtrer%20les%20sous-types&page=",4)
+# spiderSportSoup("Terrain-de-sport" ,"https://www.lyon.fr/equipements?search_api_fulltext=&field_secteur_geographique=All&items_per_page=10&field_sous_types_tmp=1387&field_sous_types_tmp_bis=1460&field_sous_types=All&filter_theme=Filtrer%20les%20types&filter_sous_theme=Filtrer%20les%20sous-types&page=",4)

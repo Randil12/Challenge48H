@@ -67,3 +67,5 @@ def service(bar_rl,bar, city):
 # check and close
     conn.commit()
     conn.close()
+
+

@@ -11,7 +11,7 @@ def selctAll():
 # Create a cursor object
     cursor = connection.cursor()
 # Execute a query
-    cursor.execute("SELECT * FROM *")
+    cursor.execute(f"SELECT * FROM {table}")
 # Fetch data from the database
     result = cursor.fetchall()
 # Print the result
@@ -20,7 +20,11 @@ def selctAll():
     cursor.close()
     connection.close()
     
-def selctAllFromCity(city):
+# test
+# selctAll("sport")  
+    
+    
+def selctAllFromCity(value):
     # Connect to the database
     connection = pymysql.connect(
         host='db4free.net',
@@ -31,7 +35,7 @@ def selctAllFromCity(city):
 # Create a cursor object
     cursor = connection.cursor()
 # Execute a query
-    cursor.execute("SELECT * FROM " + city)
+    cursor.execute(f"SELECT * FROM services WHERE cities = '{value}'")
 # Fetch data from the database
     result = cursor.fetchall()
 # Print the result
@@ -39,6 +43,9 @@ def selctAllFromCity(city):
 # Close the cursor and the database connection
     cursor.close()
     connection.close()
+    
+# test
+# selctAllFromCity("lyon")
 
 def selctFilter(value, column, table):
     # Connect to the database
@@ -60,4 +67,5 @@ def selctFilter(value, column, table):
     cursor.close()
     connection.close()
 
-selctFilter("Oui", "Restauration", "services")
+# test
+selctFilter("Terrain-de-sport", "place", "sport")
