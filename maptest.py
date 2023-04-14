@@ -2,6 +2,8 @@ import plotly.express as px
 import plotly.io as pio
 import discord
 from discord.ext import commands
+import plotly.graph_objects as go
+
 
 
 # Créer un bot Discord
@@ -23,6 +25,12 @@ async def send_image(ctx,  lat: str, lon: str, zoom: int):
     fig.update_layout(
         margin=dict(l=0, r=0, t=0, b=0)
     )
+    fig.add_trace(go.Scattermapbox(
+        lat=[lat],
+        lon=[lon],
+        mode='markers',
+        marker=dict(size=10, color='red', symbol='marker')
+    ))
 
     # Enregistrer l'image au format PNG
     pio.write_image(fig, 'carte_lyon.png')
