@@ -23,15 +23,27 @@ bot = abot()
 tree = app_commands.CommandTree(bot)
 city = ""
 
-@tree.command(name="locate", description="localise une adresse")
-async def self(interation: discord.Interaction,ville:str , adresse:str = None):
-    geolocator = Nominatim(user_agent="my_application")
-    city = ville
+async def send_message(interation, message):
+    await interation.response.send_message(message)
 
-    if adresse is None:
-        location = geolocator.geocode(f"{ville}")
-    else : 
-        location = geolocator.geocode(f"{ville} {adresse}")    
+@tree.command(name="locatebar", description="localise une adresse")
+async def self(interation: discord.Interaction,ville:str):
+    bar = BDDManager.get_bar_by_city(ville)
+    print(bar)
+    message = ""
+    for i in bar[:120]:
+        message += i + "\n"
+    await interation.response.send_message(message)
+    
+
+
+@tree.command(name="activitybar", description="toutes les activités")
+
+async def self(interation: discord.Interaction,name:str, city:Literal['lyon' , 'lille' , 'clermont-ferrand']):
+    info = BDDManager.get_all_info_by_name_and_city(city , name)
+    geolocator = Nominatim(user_agent="my_application")
+    embed = discord.Embed(title=f'Bar : {name} sur {city}' , description=f'Terrasse : {info[0][2]}\n Restauration : {info[0][3]}\n Vente à emporté : {info[0][4]}\n Wifi gratuit : {info[0][5]}\n Diffusion de mathc : {info[0][6]}\n Air Climatisé : {info[0][7]}\n Acces au toilette handicapé : {info[0][8]}\n Billard : {info[0][9]}\n Fléchette :{info[0][10]}\n Babyfoot : {info[0][11]}\n Flipper : {info[0][12]}\n Concert et Musique live : {info[0][13]}\n DJ Mix : {info[0][14]}\n Chien accepté : {info[0][15]}\n Jeux de société : {info[0][16]}\n')
+    location = geolocator.geocode(f"{city} {name}")
 
     latitude, longitude = location.latitude, location.longitude
 
@@ -44,50 +56,24 @@ async def self(interation: discord.Interaction,ville:str , adresse:str = None):
         margin=dict(l=0, r=0, t=0, b=0)
     )
     
-    # Enregistrer l'image au format PNG
     pio.write_image(fig, 'carte_lyon.png')
     image = Image.open('carte_lyon.png')
 
-    # Obtenir les dimensions de l'image
     width, height = image.size
 
-    # Créer un objet ImageDraw pour dessiner sur l'image
     draw = ImageDraw.Draw(image)
 
-    # Dessiner un cercle rouge au centre de l'image
     center_x = width // 2
     center_y = height // 2
-    radius = 5  # ajuster la taille du cercle si nécessaire
+    radius = 5
     draw.ellipse((center_x - radius, center_y - radius, center_x + radius, center_y + radius), fill='red')
     image.save('carte_lyon.png')
 
-
-    # Charger le fichier d'image
     file = discord.File("carte_lyon.png", filename="carte_lyon.png")
-
-    await interation.response.send_message(file=file)
-    
-
-l = BDDManager.get_all_column()
-l2 = l[2:]
-@tree.command(name="activity", description="toutes les activités")
-
-async def self(interation: discord.Interaction,name:Literal['Bar' , 'Sport'], option:Literal[tuple(l2)] , option2:Literal[tuple(l2)] , option3:Literal[tuple(l2)]):
-    embedlist = []
-    file = discord.File("carte_lyon.png", filename="carte_lyon.png")
-    for i in l2:
-        embed = discord.Embed(title="ID :" + str(i))
-        
-        embedlist.append(embed)
-    
-    for embed in embedlist:
-        await interation.response.send_message(embed=embed , file=file)
-        await asyncio.sleep(1)
+    await interation.response.send_message(file=file , embed=embed)
         
 
-    
-
-@tree.command(name="help", description="Affiche l'aide pour les commandes 'activity' et 'activity2'")
+@tree.command(name="help", description="Affiche l'aide pour les commandes")
 async def help_command(interation: discord.Interaction):
     help_message = """
     **Aide pour les commandes 'activity' et 'activity2' :**
@@ -109,11 +95,17 @@ async def help_command(interation: discord.Interaction):
 
     await interation.response.send_message(help_message)
 
-@tree.command(name="multi_messages", description="Affiche l'aide pour les commandes 'activity' et 'activity2'")
-async def self(interation: discord.Interaction):
-    messageList = ['Oui' , 'NON' , 'BITE']
-    for message in messageList:
-        await interation.response.send_message(message)
-        await asyncio.sleep(1)
+
+l = BDDManager.get_all_place()
+
+@tree.command(name="locatesportplace", description="localise tout les sport")
+
+async def self(interation: discord.Interaction,lieu:Literal[tuple(l)]):
+    lieu = BDDManager.get_name_by_place(lieu)
+    message = ""
+    for i in lieu:
+        message += i + "\n"
+    await interation.response.send_message(message)
+    
 
 bot.run('OTAxMzkzNzExNDQxNzcyNjA0.G5YQRm.TmuyTs47KDTEWHOdZ7qPVOYhTrz4e0iEP6XyvM')
