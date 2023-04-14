@@ -10,7 +10,7 @@ from selenium.webdriver.chrome.options import Options
 import plotly.express as px
 import plotly.io as pio
 from PIL import Image, ImageDraw
-
+import plotly.graph_objects as go
 
 
 class abot(discord.Client):
@@ -32,14 +32,18 @@ def create_map(lat, lon):
     return m
 
 @tree.command(name="locate", description="localise une adresse")
-async def self(interation: discord.Interaction,ville:str , adresse:str):
+async def self(interation: discord.Interaction,ville:str , adresse:str = None):
     geolocator = Nominatim(user_agent="my_application")
-    location = geolocator.geocode(f"{ville} {adresse}")
+    if(adresse == None):
+        location = geolocator.geocode(f"{ville}")
+    else : 
+        location = geolocator.geocode(f"{ville} {adresse}")    
 
     latitude, longitude = location.latitude, location.longitude
 
     
     fig = px.scatter_mapbox(lat=[latitude], lon=[longitude], zoom=15)  # zoom max 18 min 0
+    
     fig.update_layout(mapbox_style='open-street-map')
 
     fig.update_layout(
@@ -65,7 +69,7 @@ async def self(interation: discord.Interaction,ville:str , adresse:str):
 
 
     # Charger le fichier d'image
-    file = discord.File("carte_lyon_modifiee.png", filename="carte_lyon.png")
+    file = discord.File("carte_lyon.png", filename="carte_lyon.png")
 
     await interation.response.send_message(file=file)
 
