@@ -16,7 +16,7 @@ Ce projet a été réalisé dans le cadre du challenge 48 heures dont le thème 
 
 * Python 3.x 
 * Bot token : 
-* Bibliothèques Python: discord.py, requests 
+* Bibliothèques Python: discord.py, plotly , geopy.geocoders , BeautifulSoup , 
 
 ### Installation
 
@@ -24,13 +24,7 @@ Clonez ce dépôt sur votre machine en utilisant la commande :
 
 * git clone https://github.com/votre_compte/Challenge48H.git
 
-Installez les bibliothèques nécessaires avec la commande :
-
-* pip install -r requirements.txt
-
-* makefile
-
-DISCORD_TOKEN=xxxxxxxxxxxx
+DISCORD_TOKEN='Dans le PDF'
 
 Lancez le bot avec la commande :
 
@@ -38,18 +32,21 @@ Lancez le bot avec la commande :
 
 ### Fonctionnalités
 
-Notre bot Discord a les fonctionnalités suivantes :
+Notre projet a les fonctionnalités suivantes :
+Commande BOT Discord : 
 
-* Un menu de navigation qui permet de naviguer dans les différentes fonctionnalités du bot.
-* Une fonctionnalité qui permet de créer un sondage avec des choix multiples.
-* Une fonctionnalité qui permet de générer un emploi du temps à partir de l'emploi du temps publié sur le site de l'université.
-* Une fonctionnalité qui permet de trouver les prochains événements organisés par l'université.
-* Une fonctionnalité qui permet de trouver les restaurants universitaires ouverts à proximité de l'utilisateur.
+* /locate : cette commande permet de voir la localisation d'un lieu en particulier. Elle prend en entrée le nom du lieu et retourne sa position géographique.
+* /locatebar : cette commande permet de voir les localisations de tous les bars d'une ville. 
+* /locatesportplace : cette commande permet de voir la localisation de tous les lieux de sports
+* /activitybar : cette commande permet de voir plus en détails le bar en question. Elle prend en entrée le nom du bar et retourne une description détaillée de ce bar
+
+DATASET : 
+ 
+* Scrapper et filtrer les données 
 
 Fabriqué avec
 * Python - Langage de programmation
 * Discord.py - Bibliothèque Python pour la création de bots Discord
-* Requests - Bibliothèque Python pour les requêtes HTTP
 * BeautifulSoup - Bibliothèque Python pour le scrapping
 
 ### Auteurs
