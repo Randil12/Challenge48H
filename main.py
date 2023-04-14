@@ -7,9 +7,7 @@ import plotly.io as pio
 from PIL import Image, ImageDraw
 import BDDManager
 import asyncio
-import interactions
 
-bot = interactions.Client('OTAxMzkzNzExNDQxNzcyNjA0.G5YQRm.TmuyTs47KDTEWHOdZ7qPVOYhTrz4e0iEP6XyvM')
 
 class abot(discord.Client):
     def __init__(self):
@@ -24,15 +22,6 @@ class abot(discord.Client):
 bot = abot()
 tree = app_commands.CommandTree(bot)
 city = ""
-
-def test():
-    embedList = []
-    li = BDDManager.get_all_column()
-    newl = li[2:]
-    for i in newl:
-        embed = discord.Embed(title='ID :' + i , description="test")
-        embedList.append(embed)
-    return embedList
 
 @tree.command(name="locate", description="localise une adresse")
 async def self(interation: discord.Interaction,ville:str , adresse:str = None):
@@ -55,19 +44,25 @@ async def self(interation: discord.Interaction,ville:str , adresse:str = None):
         margin=dict(l=0, r=0, t=0, b=0)
     )
     
+    # Enregistrer l'image au format PNG
     pio.write_image(fig, 'carte_lyon.png')
     image = Image.open('carte_lyon.png')
 
+    # Obtenir les dimensions de l'image
     width, height = image.size
 
+    # Créer un objet ImageDraw pour dessiner sur l'image
     draw = ImageDraw.Draw(image)
 
+    # Dessiner un cercle rouge au centre de l'image
     center_x = width // 2
     center_y = height // 2
-    radius = 5
+    radius = 5  # ajuster la taille du cercle si nécessaire
     draw.ellipse((center_x - radius, center_y - radius, center_x + radius, center_y + radius), fill='red')
     image.save('carte_lyon.png')
 
+
+    # Charger le fichier d'image
     file = discord.File("carte_lyon.png", filename="carte_lyon.png")
 
     await interation.response.send_message(file=file)
@@ -78,8 +73,16 @@ l2 = l[2:]
 @tree.command(name="activity", description="toutes les activités")
 
 async def self(interation: discord.Interaction,name:Literal['Bar' , 'Sport'], option:Literal[tuple(l2)] , option2:Literal[tuple(l2)] , option3:Literal[tuple(l2)]):
-    embed = discord.Embed(title='Nom des bars de ' + city , description=f'{BDDManager.get_name_bar(option , option2 , option3)}')
-    await interation.response.send_message(embed=embed)
+    embedlist = []
+    file = discord.File("carte_lyon.png", filename="carte_lyon.png")
+    for i in l2:
+        embed = discord.Embed(title="ID :" + str(i))
+        
+        embedlist.append(embed)
+    
+    for embed in embedlist:
+        await interation.response.send_message(embed=embed , file=file)
+        await asyncio.sleep(1)
         
 
     
