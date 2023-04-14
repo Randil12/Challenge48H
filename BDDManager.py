@@ -38,8 +38,8 @@ def get_bar_by_city(city):
     l = [x[0] for x in result]
     return l
 
-def get_name_bar(option , option2 , option3):
-    cursor.execute(f'SELECT nom FROM services WHERE {option} = "Oui" AND {option2} = "Oui" AND {option3} = "Oui"')
+def get_name_bar(option , option2 , option3 , city):
+    cursor.execute(f'SELECT nom FROM services WHERE cities = "{city}" AND {option} = "Oui" AND {option2} = "Oui" AND {option3} = "Oui"')
     result = list(set(cursor.fetchall()))
     l = [x[0] for x in result]
     return l

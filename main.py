@@ -78,7 +78,7 @@ l2 = l[2:]
 @tree.command(name="activity", description="toutes les activités")
 
 async def self(interation: discord.Interaction,name:Literal['Bar' , 'Sport'], option:Literal[tuple(l2)] , option2:Literal[tuple(l2)] , option3:Literal[tuple(l2)]):
-    embed = discord.Embed(title='Nom des bars de ' + city , description=f'{BDDManager.get_name_bar(option , option2 , option3)}')
+    embed = discord.Embed(title='Nom des bars de ' + city , description=f'{BDDManager.get_name_bar(option , option2 , option3 , city)}')
     await interation.response.send_message(embed=embed)
         
 
