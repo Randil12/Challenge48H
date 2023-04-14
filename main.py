@@ -23,10 +23,7 @@ bot = abot()
 tree = app_commands.CommandTree(bot)
 city = ""
 
-async def send_message(interation, message):
-    await interation.response.send_message(message)
-
-@tree.command(name="locatebar", description="localise une adresse")
+@tree.command(name="locatebar", description="localise un nom de bar")
 async def self(interation: discord.Interaction,ville:str):
     bar = BDDManager.get_bar_by_city(ville)
     print(bar)
@@ -35,15 +32,22 @@ async def self(interation: discord.Interaction,ville:str):
         message += i + "\n"
     await interation.response.send_message(message)
     
-
-
 @tree.command(name="activitybar", description="toutes les activités")
-
 async def self(interation: discord.Interaction,name:str, city:Literal['lyon' , 'lille' , 'clermont-ferrand']):
     info = BDDManager.get_all_info_by_name_and_city(city , name)
-    geolocator = Nominatim(user_agent="my_application")
+    
     embed = discord.Embed(title=f'Bar : {name} sur {city}' , description=f'Terrasse : {info[0][2]}\n Restauration : {info[0][3]}\n Vente à emporté : {info[0][4]}\n Wifi gratuit : {info[0][5]}\n Diffusion de mathc : {info[0][6]}\n Air Climatisé : {info[0][7]}\n Acces au toilette handicapé : {info[0][8]}\n Billard : {info[0][9]}\n Fléchette :{info[0][10]}\n Babyfoot : {info[0][11]}\n Flipper : {info[0][12]}\n Concert et Musique live : {info[0][13]}\n DJ Mix : {info[0][14]}\n Chien accepté : {info[0][15]}\n Jeux de société : {info[0][16]}\n')
-    location = geolocator.geocode(f"{city} {name}")
+   
+    await interation.response.send_message(embed=embed)
+
+
+@tree.command(name="locate", description="localise une adresse et renvoie une carte")
+async def self(interation: discord.Interaction,ville:str , adresse:str):
+    geolocator = Nominatim(user_agent="my_application")
+    if(adresse == None):
+        location = geolocator.geocode(f"{ville}")
+    else : 
+        location = geolocator.geocode(f"{ville} {adresse}")    
 
     latitude, longitude = location.latitude, location.longitude
 
@@ -56,6 +60,7 @@ async def self(interation: discord.Interaction,name:str, city:Literal['lyon' , '
         margin=dict(l=0, r=0, t=0, b=0)
     )
     
+    # Enregistrer l'image au format PNG
     pio.write_image(fig, 'carte_lyon.png')
     image = Image.open('carte_lyon.png')
 
@@ -65,32 +70,46 @@ async def self(interation: discord.Interaction,name:str, city:Literal['lyon' , '
 
     center_x = width // 2
     center_y = height // 2
-    radius = 5
+    radius = 5  # ajuster la taille du cercle si nécessaire
     draw.ellipse((center_x - radius, center_y - radius, center_x + radius, center_y + radius), fill='red')
-    image.save('carte_lyon.png')
+    image.save('carte_lyon_modifiee.png')
 
-    file = discord.File("carte_lyon.png", filename="carte_lyon.png")
-    await interation.response.send_message(file=file , embed=embed)
+
+    file = discord.File("carte_lyon_modifiee.png", filename="carte_lyon_modifiee.png")
+
+    await interation.response.send_message(file=file)
         
 
 @tree.command(name="help", description="Affiche l'aide pour les commandes")
 async def help_command(interation: discord.Interaction):
     help_message = """
-    **Aide pour les commandes 'activity' et 'activity2' :**
+    **Aide pour les commandes 'locatebar', 'locate' et 'locatesportplace' :**
 
-    `activity` : Localise une adresse pour une activité spécifique.
+    `locatebar` : localise un nom de bar
 
-    Syntaxe : `/activity activité:Bar [restauration:bool] [terrasse:bool]`
+    Syntaxe : `/locatebar ville`
 
     - `activité` (obligatoire) : Le type d'activité à localiser. Les options possibles sont : 'Bar'.
-    - `option` (facultatif, exemple : terrasse, emporter, ...) : Option pour indiquer si le bar possede l'option choisie.
 
-    `location` : Localise une adresse pour une autre activité.
+    `locate` : localise une adresse et renvoie une carte
 
-    Syntaxe : `/location ville:str lieu : str`
+    Syntaxe : `/locate ville:str lieu : str`
 
     - `ville` (obligatoire) : Le nom de la ville ou chercher le lieu. Vous pouvez spécifier n'importe quelle chaîne de caractères.
     - `lieu` (facultatif) : Le nom du lieu à localiser. Vous pouvez spécifier n'importe quelle chaîne de caractères.
+
+    `locatesportplace` : localise tout les sport
+
+    Syntaxe : `/locatesportplace lieu : str`
+
+    - `lieu` (facultatif) : Le nom du lieu à localiser. Vous pouvez spécifier n'importe quelle chaîne de caractères.
+
+    `activitybar` : toutes les activités
+
+    Syntaxe : `/activitybar city : str name : str`
+
+    - `lieu` (facultatif) : Le nom du lieu à localiser. Vous pouvez spécifier n'importe quelle chaîne de caractères.
+
     """
 
     await interation.response.send_message(help_message)
