@@ -6,7 +6,7 @@ import plotly.express as px
 import plotly.io as pio
 from PIL import Image, ImageDraw
 import BDDManager
-
+import asyncio
 
 
 class abot(discord.Client):
@@ -21,12 +21,14 @@ class abot(discord.Client):
 
 bot = abot()
 tree = app_commands.CommandTree(bot)
-names = ""
+city = ""
 
 @tree.command(name="locate", description="localise une adresse")
-async def self(interation: discord.Interaction,ville:str , adresse:str):
+async def self(interation: discord.Interaction,ville:str , adresse:str = None):
     geolocator = Nominatim(user_agent="my_application")
-    if(adresse == None):
+    city = ville
+
+    if adresse is None:
         location = geolocator.geocode(f"{ville}")
     else : 
         location = geolocator.geocode(f"{ville} {adresse}")    
@@ -57,21 +59,33 @@ async def self(interation: discord.Interaction,ville:str , adresse:str):
     center_y = height // 2
     radius = 5  # ajuster la taille du cercle si nécessaire
     draw.ellipse((center_x - radius, center_y - radius, center_x + radius, center_y + radius), fill='red')
-    image.save('carte_lyon_modifiee.png')
+    image.save('carte_lyon.png')
 
 
     # Charger le fichier d'image
     file = discord.File("carte_lyon.png", filename="carte_lyon.png")
 
     await interation.response.send_message(file=file)
+    
 
 l = BDDManager.get_all_column()
 l2 = l[2:]
-@tree.command(name="Activity", description="toutes les activités")
+@tree.command(name="activity", description="toutes les activités")
 
-async def self(interation: discord.Interaction,name:Literal['Bar' , 'Sport'], test:Literal[tuple(l2)]):
+async def self(interation: discord.Interaction,name:Literal['Bar' , 'Sport'], option:Literal[tuple(l2)] , option2:Literal[tuple(l2)] , option3:Literal[tuple(l2)]):
+    embedlist = []
+    file = discord.File("carte_lyon.png", filename="carte_lyon.png")
+    for i in l2:
+        embed = discord.Embed(title="ID :" + str(i))
+        
+        embedlist.append(embed)
     
-    await interation.response.send_message(f'Oui + {name}')
+    for embed in embedlist:
+        await interation.response.send_message(embed=embed , file=file)
+        await asyncio.sleep(1)
+        
+
+    
 
 @tree.command(name="help", description="Affiche l'aide pour les commandes 'activity' et 'activity2'")
 async def help_command(interation: discord.Interaction):
@@ -94,5 +108,12 @@ async def help_command(interation: discord.Interaction):
     """
 
     await interation.response.send_message(help_message)
+
+@tree.command(name="multi_messages", description="Affiche l'aide pour les commandes 'activity' et 'activity2'")
+async def self(interation: discord.Interaction):
+    messageList = ['Oui' , 'NON' , 'BITE']
+    for message in messageList:
+        await interation.response.send_message(message)
+        await asyncio.sleep(1)
 
 bot.run('OTAxMzkzNzExNDQxNzcyNjA0.G5YQRm.TmuyTs47KDTEWHOdZ7qPVOYhTrz4e0iEP6XyvM')
