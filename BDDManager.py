@@ -28,7 +28,6 @@ def get_all_column():
     newl = []
     for i in range(len(l)):
         newl.append(l[i][3])
+        
     return newl
 
-    
-print(get_all_column())

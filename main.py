@@ -1,10 +1,11 @@
 import discord 
 from discord import app_commands
-import typing
+from typing import List, Literal
 from geopy.geocoders import Nominatim
 import plotly.express as px
 import plotly.io as pio
 from PIL import Image, ImageDraw
+import BDDManager
 
 
 
@@ -64,9 +65,12 @@ async def self(interation: discord.Interaction,ville:str , adresse:str):
 
     await interation.response.send_message(file=file)
 
+l = BDDManager.get_all_column()
+l2 = l[2:]
+@tree.command(name="Activity", description="toutes les activités")
 
-@tree.command(name="test", description="test")
-async def self(interation: discord.Interaction,name:str):
+async def self(interation: discord.Interaction,name:Literal['Bar' , 'Sport'], test:Literal[tuple(l2)]):
+    
     await interation.response.send_message(f'Oui + {name}')
 
 bot.run('OTAxMzkzNzExNDQxNzcyNjA0.G5YQRm.TmuyTs47KDTEWHOdZ7qPVOYhTrz4e0iEP6XyvM')
