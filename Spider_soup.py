@@ -35,10 +35,4 @@ for page in range(1,11):
         cursor.execute(query, params)
         conn.commit()
 
-
-
 conn.close()
-
-
-
-
