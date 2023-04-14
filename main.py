@@ -69,9 +69,4 @@ async def self(interation: discord.Interaction,ville:str , adresse:str):
 
     await interation.response.send_message(file=file)
 
-
-@tree.command(name="test", description="test")
-async def self(interation: discord.Interaction,name:str):
-    await interation.response.send_message(f'Oui + {name}')
-
 bot.run('OTAxMzkzNzExNDQxNzcyNjA0.G5YQRm.TmuyTs47KDTEWHOdZ7qPVOYhTrz4e0iEP6XyvM')
