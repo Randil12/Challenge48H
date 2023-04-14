@@ -122,7 +122,7 @@ l = BDDManager.get_all_place()
 async def self(interation: discord.Interaction,lieu:Literal[tuple(l)]):
     lieu = BDDManager.get_name_by_place(lieu)
     message = ""
-    for i in lieu:
+    for i in lieu[:50]:
         message += i + "\n"
     await interation.response.send_message(message)
     
