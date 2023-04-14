@@ -65,15 +65,15 @@ async def self(interation: discord.Interaction,ville:str , adresse:str):
 
 
     # Charger le fichier d'image
-    file = discord.File("carte_lyon.png", filename="carte_lyon.png")
+    file = discord.File("carte_lyon_modifiee.png", filename="carte_lyon_modifiee.png")
 
     await interation.response.send_message(file=file)
 
-@tree.command(name="activity", description="trouver une activité")
-async def self(interation: discord.Interaction, activité:typing.Literal["Bar"], 
-              restauration: typing.Optional[bool]=False, 
-              terrasse: typing.Optional[bool]=False):
-    await interation.response.send_message("ok")
+# @tree.command(name="activity", description="trouver une activité")
+# async def self(interation: discord.Interaction, activité:typing.Literal["Bar"], 
+#               restauration: typing.Optional[bool]=False, 
+#               terrasse: typing.Optional[bool]=False):
+#     await interation.response.send_message("ok")
    
 @tree.command(name="help", description="Affiche l'aide pour les commandes 'activity' et 'activity2'")
 async def help_command(interation: discord.Interaction):
