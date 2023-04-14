@@ -31,7 +31,7 @@ def create_map(lat, lon):
     m = folium.Map(location=[lat, lon], zoom_start=13)
     return m
 
-@tree.command(name="locate", description="localise une adresse")
+@tree.command(name="locate", description="localise une adresse de bar")
 async def self(interation: discord.Interaction,ville:str , adresse:str):
     geolocator = Nominatim(user_agent="my_application")
     location = geolocator.geocode(f"{ville} {adresse}")
