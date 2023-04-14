@@ -3,12 +3,16 @@ from bs4 import BeautifulSoup
 import mysql.connector
 
 
-host = 'db4free.net'
-user = 'challenge48h'
-password = 'rootroot'
-database = 'spiderbase'
 
-def service(bar):
+def service(bar_rl,bar, city):
+    # host = 'localhost'
+    # user = 'root'
+    # password = ''
+    # database = 'spider_student'
+    host = 'db4free.net'
+    user = 'challenge48h'
+    password = 'rootroot'
+    database = 'spiderbase'
 # format
     bar = bar.replace('-!', '').replace('Red-House','red-house-1').replace('Moi-JMen-Fous-Je-Triche','moi-jm-en-fous-je-triche').replace('.', '-').replace('(','').replace(')','').replace(' - ', '-').replace(' & ','-').replace('&','-').replace(' ','-').replace('\'', '').replace('’','')
     print(bar)
@@ -54,12 +58,12 @@ def service(bar):
     all_service = [service.replace('-', '').replace(' ', '_').replace('&','and').replace('/','and') for service in all_service]
 
 # create database
-    query_create = f"CREATE TABLE IF NOT EXISTS services (nom TEXT,{all_service[0]} TEXT,{all_service[1]} TEXT, {all_service[2]} TEXT,{all_service[3]} TEXT,{all_service[4]} TEXT, {all_service[5]} TEXT,{all_service[6]} TEXT,{all_service[7]} TEXT, {all_service[8]} TEXT,{all_service[9]} TEXT,{all_service[10]} TEXT, {all_service[11]} TEXT,{all_service[12]} TEXT,{all_service[13]} TEXT, {all_service[14]} TEXT)"
+    query_create = f"CREATE TABLE IF NOT EXISTS services (cities TEXT,nom TEXT,{all_service[0]} TEXT,{all_service[1]} TEXT, {all_service[2]} TEXT,{all_service[3]} TEXT,{all_service[4]} TEXT, {all_service[5]} TEXT,{all_service[6]} TEXT,{all_service[7]} TEXT, {all_service[8]} TEXT,{all_service[9]} TEXT,{all_service[10]} TEXT, {all_service[11]} TEXT,{all_service[12]} TEXT,{all_service[13]} TEXT, {all_service[14]} TEXT)"
     cursor.execute(query_create)
     
 # insert into
-    query_insert = f"INSERT INTO services (nom , {all_service[0]},{all_service[1]}, {all_service[2]} ,{all_service[3]} ,{all_service[4]} , {all_service[5]} ,{all_service[6]} ,{all_service[7]} , {all_service[8]} ,{all_service[9]} ,{all_service[10]} , {all_service[11]} ,{all_service[12]} ,{all_service[13]} , {all_service[14]}) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
-    cursor.execute(query_insert, (bar,result_tab[0],result_tab[1],result_tab[2],result_tab[3],result_tab[4],result_tab[5],result_tab[6],result_tab[7],result_tab[8],result_tab[9],result_tab[10],result_tab[11],result_tab[12],result_tab[13],result_tab[14],))
+    query_insert = f"INSERT INTO services (cities ,nom , {all_service[0]},{all_service[1]}, {all_service[2]} ,{all_service[3]} ,{all_service[4]} , {all_service[5]} ,{all_service[6]} ,{all_service[7]} , {all_service[8]} ,{all_service[9]} ,{all_service[10]} , {all_service[11]} ,{all_service[12]} ,{all_service[13]} , {all_service[14]}) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
+    cursor.execute(query_insert, (city,bar_rl,result_tab[0],result_tab[1],result_tab[2],result_tab[3],result_tab[4],result_tab[5],result_tab[6],result_tab[7],result_tab[8],result_tab[9],result_tab[10],result_tab[11],result_tab[12],result_tab[13],result_tab[14],))
 
 
 # check and close
@@ -67,4 +71,3 @@ def service(bar):
     conn.close()
 
 
-service('L’Interlude')
