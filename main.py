@@ -89,27 +89,27 @@ async def help_command(interation: discord.Interaction):
 
     Syntaxe : `/locatebar ville`
 
-    - `activité` (obligatoire) : Le type d'activité à localiser. Les options possibles sont : 'Bar'.
+    - `ville` (obligatoire) : localise les bar dans la ville passer en parametre'.
 
     `locate` : localise une adresse et renvoie une carte
 
     Syntaxe : `/locate ville:str lieu : str`
 
-    - `ville` (obligatoire) : Le nom de la ville ou chercher le lieu. Vous pouvez spécifier n'importe quelle chaîne de caractères.
-    - `lieu` (facultatif) : Le nom du lieu à localiser. Vous pouvez spécifier n'importe quelle chaîne de caractères.
+    - `ville` (obligatoire) : Le nom de la ville ou chercher le lieu.
+    - `lieu` (facultatif) : Le nom du lieu à localiser.
 
     `locatesportplace` : localise tout les sport
 
     Syntaxe : `/locatesportplace lieu : str`
 
-    - `lieu` (facultatif) : Le nom du lieu à localiser. Vous pouvez spécifier n'importe quelle chaîne de caractères.
+    - `lieu` (obligatoire) : Le nom du lieu à localiser.
 
     `activitybar` : toutes les activités
 
     Syntaxe : `/activitybar city : str name : str`
 
-    - `lieu` (facultatif) : Le nom du lieu à localiser. Vous pouvez spécifier n'importe quelle chaîne de caractères.
-
+    - `city` (obligatoire) : Le nom de la ville du lieu à localiser.
+    - `name` (obligatoire) : Le nom du bar.
     """
 
     await interation.response.send_message(help_message)
