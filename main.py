@@ -1,16 +1,11 @@
 import discord 
-from discord.ext import commands
 from discord import app_commands
 import typing
 from geopy.geocoders import Nominatim
-from io import BytesIO
-import io 
-import folium
-from selenium.webdriver.chrome.options import Options
 import plotly.express as px
 import plotly.io as pio
 from PIL import Image, ImageDraw
-import plotly.graph_objects as go
+
 
 
 class abot(discord.Client):
@@ -26,10 +21,6 @@ class abot(discord.Client):
 bot = abot()
 tree = app_commands.CommandTree(bot)
 names = ""
-
-def create_map(lat, lon):
-    m = folium.Map(location=[lat, lon], zoom_start=13)
-    return m
 
 @tree.command(name="locate", description="localise une adresse")
 async def self(interation: discord.Interaction,ville:str , adresse:str):

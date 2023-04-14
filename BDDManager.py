@@ -3,23 +3,32 @@ import pymysql
 
 # Connect to the database
 connection = pymysql.connect(
-    host='localhost',
-    user='root',
-    password='root',
-    db='loutrerushbdd'
+    host='db4free.net',
+    user='challenge48h',
+    password='rootroot',
+    db='spiderbase'
 )
 # Create a cursor object
 cursor = connection.cursor()
 
-# Execute a query
-cursor.execute("SELECT * FROM Player")
 
-# Fetch data from the database
-result = cursor.fetchall()
+def get_bar(ville):
+    ville = ville.lower()
+    cursor.execute(f"SELECT * FROM {ville}")
+    result = cursor.fetchall()
+   
+    cursor.close()
+    connection.close()
+    return list(set(result))
 
-# Print the result
-print(result)
+def get_all_column():
+    cursor.execute("SELECT * FROM information_schema.columns WHERE table_name = 'services' ")
+    result = list(cursor.fetchall())
+    l = result
+    newl = []
+    for i in range(len(l)):
+        newl.append(l[i][3])
+    return newl
 
-# Close the cursor and the database connection
-cursor.close()
-connection.close()
+    
+print(get_all_column())
