@@ -74,5 +74,27 @@ async def self(interation: discord.Interaction, activité:typing.Literal["Bar"],
               restauration: typing.Optional[bool]=False, 
               terrasse: typing.Optional[bool]=False):
     await interation.response.send_message("ok")
+   
+@tree.command(name="help", description="Affiche l'aide pour les commandes 'activity' et 'activity2'")
+async def help_command(interation: discord.Interaction):
+    help_message = """
+    **Aide pour les commandes 'activity' et 'activity2' :**
+
+    `activity` : Localise une adresse pour une activité spécifique.
+
+    Syntaxe : `/activity activité:Bar [restauration:bool] [terrasse:bool]`
+
+    - `activité` (obligatoire) : Le type d'activité à localiser. Les options possibles sont : 'Bar'.
+    - `option` (facultatif, exemple : terrasse, emporter, ...) : Option pour indiquer si le bar possede l'option choisie.
+
+    `location` : Localise une adresse pour une autre activité.
+
+    Syntaxe : `/location ville:str lieu : str`
+
+    - `ville` (obligatoire) : Le nom de la ville ou chercher le lieu. Vous pouvez spécifier n'importe quelle chaîne de caractères.
+    - `lieu` (facultatif) : Le nom du lieu à localiser. Vous pouvez spécifier n'importe quelle chaîne de caractères.
+    """
+
+    await interation.response.send_message(help_message)
 
 bot.run('OTAxMzkzNzExNDQxNzcyNjA0.G5YQRm.TmuyTs47KDTEWHOdZ7qPVOYhTrz4e0iEP6XyvM')
