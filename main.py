@@ -127,4 +127,4 @@ async def self(interation: discord.Interaction,lieu:Literal[tuple(l)]):
     await interation.response.send_message(message)
     
 
-bot.run('OTAxMzkzNzExNDQxNzcyNjA0.G5YQRm.TmuyTs47KDTEWHOdZ7qPVOYhTrz4e0iEP6XyvM')
+bot.run('METTRE LE TOKEN')
