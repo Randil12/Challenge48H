@@ -39,5 +39,6 @@ async def send_image(ctx,  lat: str, lon: str, zoom: int):
     file = discord.File("carte_lyon.png", filename="carte_lyon.png")
 
     await ctx.send(file=file)
+    
 
 bot.run('OTAxMzkzNzExNDQxNzcyNjA0.G5YQRm.TmuyTs47KDTEWHOdZ7qPVOYhTrz4e0iEP6XyvM')    
