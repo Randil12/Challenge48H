@@ -11,7 +11,7 @@ def selctAll():
 # Create a cursor object
     cursor = connection.cursor()
 # Execute a query
-    cursor.execute("SELECT * FROM lille")
+    cursor.execute("SELECT * FROM *")
 # Fetch data from the database
     result = cursor.fetchall()
 # Print the result
