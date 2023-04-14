@@ -32,7 +32,7 @@ def create_map(lat, lon):
     return m
 
 @tree.command(name="locate", description="localise une adresse")
-async def self(interation: discord.Interaction,ville:str , adresse:str = None):
+async def self(interation: discord.Interaction,ville:str , adresse:str):
     geolocator = Nominatim(user_agent="my_application")
     if(adresse == None):
         location = geolocator.geocode(f"{ville}")
