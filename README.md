@@ -50,6 +50,7 @@ Fabriqué avec
 * Python - Langage de programmation
 * Discord.py - Bibliothèque Python pour la création de bots Discord
 * Requests - Bibliothèque Python pour les requêtes HTTP
+* BeautifulSoup - Bibliothèque Python pour le scrapping
 
 ### Auteurs
 
