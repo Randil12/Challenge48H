@@ -15,7 +15,6 @@ Ce projet a été réalisé dans le cadre du challenge 48 heures dont le thème 
 ### Pré-requis
 
 * Python 3.x 
-* Bot token : 
 * Bibliothèques Python: discord.py, plotly , geopy.geocoders , BeautifulSoup , 
 
 ### Installation
@@ -57,3 +56,6 @@ Fabriqué avec
 * Auteur 4 : Pointard Mathys (https://github.com/Pointard-Mathys)
 * Auteur 5 : Marie Gabriel (https://github.com/Bechamelloww)
 * Auteur 6 : Ndimingui Trésor (https://github.com/Tr3sr)
+
+### Site Vitrine
+https://bddloutrerush.000webhostapp.com/
