@@ -15,7 +15,7 @@ Ce projet a été réalisé dans le cadre du challenge 48 heures dont le thème 
 ### Pré-requis
 
 * Python 3.x 
-* Bot token : 
+* Bot token :  OTAxMzkzNzExNDQxNzcyNjA0.G0E87V.N-0PErq_NCV2g4UtoP_Zx8R2qW-h-o5QLVHXoI
 * Bibliothèques Python: discord.py, plotly , geopy.geocoders , BeautifulSoup , 
 
 ### Installation
